@@ -8,7 +8,7 @@ const MOCK_RULES: AutoReplyRule[] = [
     id: 'rule_1',
     name: 'Стандартный 5 Звезд',
     mode: 'AUTO',
-    promptTemplate: 'Поблагодари за отзыв. Упомяни качество товара.',
+    promptTemplate: 'Поблагодари за отзыв. Упомяни качество товара. В конце добавь подпись "С уважением, команда StarMarket".',
     triggerConditions: ['Оценка: 5'],
     provider: 'DeepSeek',
     status: 'ACTIVE'
@@ -17,7 +17,7 @@ const MOCK_RULES: AutoReplyRule[] = [
     id: 'rule_2',
     name: 'Агрессивный Негатив',
     mode: 'SUGGEST',
-    promptTemplate: 'Извинись за доставленные неудобства. Предложи связаться с поддержкой.',
+    promptTemplate: 'Извинись за доставленные неудобства. Предложи связаться с поддержкой. В конце добавь подпись "С уважением, команда StarMarket".',
     triggerConditions: ['Оценка: 1-2', 'Содержит: "брак"'],
     provider: 'OpenAI',
     status: 'ACTIVE'
@@ -26,7 +26,7 @@ const MOCK_RULES: AutoReplyRule[] = [
     id: 'rule_3',
     name: 'Нейтральный 3 Звезды',
     mode: 'SUGGEST',
-    promptTemplate: 'Спроси, что можно улучшить.',
+    promptTemplate: 'Спроси, что можно улучшить. В конце добавь подпись "С уважением, команда StarMarket".',
     triggerConditions: ['Оценка: 3'],
     provider: 'DeepSeek',
     status: 'PAUSED'
@@ -118,9 +118,9 @@ export default function AutoReplyRulesView() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-full sm:w-[500px] bg-light-surface dark:bg-[#121212] border-l border-light-border dark:border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.1)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.5)] z-40 flex flex-col"
+              className="fixed top-0 right-0 h-full w-full sm:w-[500px] bg-light-surface dark:bg-dark-surface border-l border-light-border dark:border-white/5 shadow-[-20px_0_50px_rgba(0,0,0,0.1)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.5)] z-40 flex flex-col"
             >
-              <div className="flex items-center justify-between p-6 border-b border-light-border dark:border-white/5 bg-gray-50 dark:bg-[#0A0A0A]/50">
+              <div className="flex items-center justify-between p-6 border-b border-light-border dark:border-white/5 bg-gray-50 dark:bg-dark-bg/50">
                 <div className="flex items-center gap-3">
                   <Settings2 className="text-cyan-600 dark:text-cyan-400" size={20} />
                   <h2 className="text-lg font-semibold text-light-text-primary dark:text-white tracking-tight">Редактировать правило</h2>
@@ -139,13 +139,13 @@ export default function AutoReplyRulesView() {
                   <input 
                     type="text" 
                     defaultValue={selectedRule.name}
-                    className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                    className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                   />
                 </div>
 
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Режим выполнения</label>
-                  <div className="flex bg-gray-100 dark:bg-[#0A0A0A] p-1 rounded border border-light-border dark:border-white/5 w-fit">
+                  <div className="flex bg-gray-100 dark:bg-dark-bg p-1 rounded border border-light-border dark:border-white/5 w-fit">
                     <button className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${selectedRule.mode === 'AUTO' ? 'bg-white dark:bg-white text-black shadow-sm' : 'text-light-text-secondary dark:text-gray-500 hover:text-light-text-primary dark:hover:text-gray-300'}`}>Авто-публикация</button>
                     <button className={`px-4 py-1.5 text-xs font-medium rounded transition-colors ${selectedRule.mode === 'SUGGEST' ? 'bg-white dark:bg-white text-black shadow-sm' : 'text-light-text-secondary dark:text-gray-500 hover:text-light-text-primary dark:hover:text-gray-300'}`}>Черновик</button>
                   </div>
@@ -153,7 +153,7 @@ export default function AutoReplyRulesView() {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Провайдер ИИ</label>
-                  <select defaultValue={selectedRule.provider} className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
+                  <select defaultValue={selectedRule.provider} className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
                     <option value="DeepSeek">DeepSeek (Экономичный)</option>
                     <option value="OpenAI">OpenAI (Резервный)</option>
                   </select>
@@ -164,12 +164,12 @@ export default function AutoReplyRulesView() {
                   <textarea 
                     rows={8}
                     defaultValue={selectedRule.promptTemplate}
-                    className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md p-4 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none shadow-inner font-mono"
+                    className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md p-4 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none shadow-inner font-mono"
                   />
                 </div>
               </div>
 
-              <div className="p-6 border-t border-light-border dark:border-white/5 bg-gray-50 dark:bg-[#0A0A0A]/50 flex gap-3">
+              <div className="p-6 border-t border-light-border dark:border-white/5 bg-gray-50 dark:bg-dark-bg/50 flex gap-3">
                 <button 
                   onClick={() => setSelectedRule(null)}
                   className="flex-1 flex items-center justify-center gap-2 bg-black dark:bg-white text-white dark:text-black px-4 py-2.5 rounded-md text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-sm dark:shadow-[0_0_20px_rgba(255,255,255,0.1)]"

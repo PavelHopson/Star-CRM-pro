@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'secret';
 
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  activateSecretTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -14,16 +15,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
+    root.classList.remove('light', 'dark', 'theme-secret');
+    
+    if (theme === 'secret') {
+      root.classList.add('dark', 'theme-secret');
+    } else {
+      root.classList.add(theme);
+    }
   }, [theme]);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const activateSecretTheme = () => {
+    setTheme('secret');
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, activateSecretTheme }}>
       {children}
     </ThemeContext.Provider>
   );

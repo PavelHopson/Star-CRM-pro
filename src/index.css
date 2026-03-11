@@ -9,13 +9,40 @@
   --color-light-text-secondary: #64748B;
   --color-light-text-muted: #94A3B8;
 
-  --color-dark-bg: #0A0A0A;
-  --color-dark-surface: #121212;
-  --color-dark-card: #121212;
-  --color-dark-border: rgba(255, 255, 255, 0.05);
+  --color-dark-bg: #323232;
+  --color-dark-surface: #454545;
+  --color-dark-card: #454545;
+  --color-dark-border: rgba(255, 255, 255, 0.1);
   --color-dark-text-primary: #F8FAFC;
-  --color-dark-text-secondary: #94A3B8;
-  --color-dark-text-muted: #64748B;
+  --color-dark-text-secondary: #CBD5E1;
+  --color-dark-text-muted: #94A3B8;
+}
+
+@layer base {
+  .theme-secret {
+    --color-dark-bg: #F33CA3;
+    --color-dark-surface: #FB6E8A;
+    --color-dark-card: #FB6E8A;
+    --color-dark-border: rgba(255, 255, 255, 0.2);
+    --color-dark-text-primary: #FFFFFF;
+    --color-dark-text-secondary: #FFE4E6;
+    --color-dark-text-muted: #FDA4AF;
+    
+    --color-gray-50: #FB6E8A;
+    --color-gray-100: #FB6E8A;
+    --color-gray-200: #FFFFFF;
+    --color-gray-300: #FFE4E6;
+    --color-gray-400: #FDA4AF;
+    --color-gray-500: #FDA4AF;
+    --color-gray-600: #FDA4AF;
+    --color-gray-700: #F33CA3;
+    --color-gray-800: #F33CA3;
+    --color-gray-900: #F33CA3;
+    
+    --color-cyan-400: #FFFFFF;
+    --color-cyan-500: #FFE4E6;
+    --color-cyan-600: #FFFFFF;
+  }
 }
 
 @layer utilities {
@@ -80,13 +107,6 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-@theme {
-  --color-dark-bg: #0A0A0A;
-  --color-dark-card: #121212;
-  --color-light-bg: #F8F9FA;
-  --color-light-card: #FFFFFF;
-}
 
 body {
   @apply bg-light-bg text-[#1A1A1B] dark:bg-dark-bg dark:text-gray-200;

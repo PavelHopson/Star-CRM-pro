@@ -29,7 +29,7 @@ export default function SettingsView() {
 
       <div className="max-w-3xl">
         {activeTab === 'integrations' && (
-          <div className="bg-light-surface dark:bg-[#121212] border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
+          <div className="bg-light-surface dark:bg-dark-surface border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-fuchsia-100 dark:bg-fuchsia-500/10 rounded-md border border-fuchsia-200 dark:border-fuchsia-500/20">
                 <Link size={20} className="text-fuchsia-600 dark:text-fuchsia-400" />
@@ -47,7 +47,7 @@ export default function SettingsView() {
                 <input 
                   type="password" 
                   defaultValue="••••••••••••••••••••••••••••••••"
-                  className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md pl-10 pr-3 py-2.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
+                  className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md pl-10 pr-3 py-2.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
                 />
               </div>
             </div>
@@ -63,7 +63,7 @@ export default function SettingsView() {
         )}
 
         {activeTab === 'ai' && (
-          <div className="bg-light-surface dark:bg-[#121212] border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
+          <div className="bg-light-surface dark:bg-dark-surface border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-cyan-100 dark:bg-cyan-500/10 rounded-md border border-cyan-200 dark:border-cyan-500/20">
                 <Cpu size={20} className="text-cyan-600 dark:text-cyan-400" />
@@ -75,7 +75,7 @@ export default function SettingsView() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#0A0A0A] border border-light-border dark:border-white/5 rounded-md">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-bg border border-light-border dark:border-white/5 rounded-md">
                 <div>
                   <h3 className="text-sm font-medium text-light-text-primary dark:text-gray-200">DeepSeek (Основной)</h3>
                   <p className="text-xs text-light-text-secondary dark:text-gray-500 mt-1">Экономичная модель для стандартных ответов.</p>
@@ -85,7 +85,7 @@ export default function SettingsView() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#0A0A0A] border border-light-border dark:border-white/5 rounded-md">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-bg border border-light-border dark:border-white/5 rounded-md">
                 <div>
                   <h3 className="text-sm font-medium text-light-text-primary dark:text-gray-200">OpenAI (Резервный)</h3>
                   <p className="text-xs text-light-text-secondary dark:text-gray-500 mt-1">Используется, когда основной провайдер недоступен.</p>
@@ -111,7 +111,7 @@ export default function SettingsView() {
         )}
 
         {activeTab === 'general' && (
-          <div className="bg-light-surface dark:bg-[#121212] border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
+          <div className="bg-light-surface dark:bg-dark-surface border border-light-border dark:border-white/5 rounded-md shadow-sm dark:shadow-lg p-6 flex flex-col gap-6 hover-micro-gradient transition-colors duration-200">
             <div className="flex flex-col gap-4">
               <h2 className="text-base font-semibold text-light-text-primary dark:text-gray-200 border-b border-light-border dark:border-white/5 pb-2">Профиль пользователя</h2>
               
@@ -121,7 +121,7 @@ export default function SettingsView() {
                   <input 
                     type="text" 
                     defaultValue="Иван Иванов"
-                    className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                    className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -129,7 +129,7 @@ export default function SettingsView() {
                   <input 
                     type="email" 
                     defaultValue="ivan@example.com"
-                    className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+                    className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
                   />
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function SettingsView() {
             <div className="flex flex-col gap-4 mt-2">
               <h2 className="text-base font-semibold text-light-text-primary dark:text-gray-200 border-b border-light-border dark:border-white/5 pb-2">Уведомления</h2>
               
-              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#0A0A0A] border border-light-border dark:border-white/5 rounded-md">
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-dark-bg border border-light-border dark:border-white/5 rounded-md">
                 <div>
                   <h3 className="text-sm font-medium text-light-text-primary dark:text-gray-200">Email уведомления</h3>
                   <p className="text-xs text-light-text-secondary dark:text-gray-500 mt-0.5">Получать отчеты и важные алерты на почту</p>
@@ -148,7 +148,7 @@ export default function SettingsView() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#0A0A0A] border border-light-border dark:border-white/5 rounded-md">
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-dark-bg border border-light-border dark:border-white/5 rounded-md">
                 <div>
                   <h3 className="text-sm font-medium text-light-text-primary dark:text-gray-200">Telegram Bot</h3>
                   <p className="text-xs text-light-text-secondary dark:text-gray-500 mt-0.5">Моментальные уведомления о негативных отзывах</p>
@@ -165,14 +165,14 @@ export default function SettingsView() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Язык интерфейса</label>
-                  <select className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
+                  <select className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
                     <option value="ru">Русский</option>
                     <option value="en">English</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Часовой пояс</label>
-                  <select className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
+                  <select className="w-full bg-white dark:bg-dark-bg border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
                     <option value="Europe/Moscow">Москва (GMT+3)</option>
                     <option value="Asia/Yekaterinburg">Екатеринбург (GMT+5)</option>
                   </select>

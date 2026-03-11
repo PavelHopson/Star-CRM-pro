@@ -27,7 +27,8 @@ function AppContent() {
   const [marketplace, setMarketplace] = useState<'WB' | 'OZON'>('WB');
   const [apiStatus, setApiStatus] = useState<ApiStatus>('ok');
   const [lastSyncTime, setLastSyncTime] = useState<number>(5); // minutes ago
-  const { theme, toggleTheme } = useTheme();
+  const [logoClicks, setLogoClicks] = useState(0);
+  const { theme, toggleTheme, activateSecretTheme } = useTheme();
   const t = translations.ru;
 
   // Simulate time passing for last sync
@@ -37,6 +38,18 @@ function AppContent() {
     }, 60000); // Every minute
     return () => clearInterval(interval);
   }, []);
+
+  const handleLogoClick = () => {
+    setLogoClicks(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 5) {
+        activateSecretTheme();
+        setToast({ msg: '✨ Секретная тема активирована! ✨', type: 'success' });
+        return 0;
+      }
+      return newCount;
+    });
+  };
 
   const handleSync = () => {
     if (apiStatus === 'syncing') return;
@@ -79,7 +92,7 @@ function AppContent() {
       {/* --- TOAST NOTIFICATION --- */}
       {toast && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-4 fade-in duration-300">
-          <div className={`flex items-center gap-3 bg-light-card dark:bg-[#121212] border px-4 py-3 rounded-md shadow-2xl shadow-black/10 dark:shadow-black ${
+          <div className={`flex items-center gap-3 bg-light-card dark:bg-dark-surface border px-4 py-3 rounded-md shadow-2xl shadow-black/10 dark:shadow-black ${
             toast.type === 'success' 
               ? 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400' 
               : 'border-rose-500/30 text-rose-600 dark:text-rose-400'
@@ -91,14 +104,17 @@ function AppContent() {
       )}
 
       {/* --- SIDEBAR --- */}
-      <aside className="w-16 lg:w-64 border-r border-[#E9ECEF] dark:border-white/5 bg-light-bg dark:bg-[#0A0A0A] flex flex-col justify-between hidden sm:flex z-20 transition-colors duration-200">
+      <aside className="w-16 lg:w-64 border-r border-[#E9ECEF] dark:border-white/5 bg-light-bg dark:bg-dark-bg flex flex-col justify-between hidden sm:flex z-20 transition-colors duration-200">
         <div>
-          <div className="h-16 flex items-center justify-center lg:justify-start lg:px-6 border-b border-[#E9ECEF] dark:border-white/5 transition-colors duration-200">
+          <div 
+            className="h-16 flex items-center justify-center lg:justify-start lg:px-6 border-b border-[#E9ECEF] dark:border-white/5 transition-colors duration-200 cursor-pointer select-none"
+            onClick={handleLogoClick}
+          >
             {/* Full Logo for Desktop */}
             <svg viewBox="0 0 260 80" className="h-8 w-auto hidden lg:block" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g transform="translate(0, 15)">
                 <path d="M25 2 L31 16 L47 18 L35 28 L38 43 L25 35 L12 43 L15 28 L3 18 L19 16 Z" stroke="#124266" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="dark:stroke-white" />
-                <path d="M10 45 L48 7" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-light-bg dark:text-[#0A0A0A]" />
+                <path d="M10 45 L48 7" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-light-bg dark:text-dark-bg" />
                 <path d="M10 45 L48 7 M34 7 L48 7 L48 21" stroke="#2CB4C3" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
               </g>
               <text x="60" y="52" fontFamily="Inter, sans-serif" fontWeight="700" fontSize="34" letterSpacing="-0.5">
@@ -110,7 +126,7 @@ function AppContent() {
             <svg viewBox="0 0 60 60" className="h-8 w-8 lg:hidden" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g transform="translate(5, 5)">
                 <path d="M25 2 L31 16 L47 18 L35 28 L38 43 L25 35 L12 43 L15 28 L3 18 L19 16 Z" stroke="#124266" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="dark:stroke-white" />
-                <path d="M10 45 L48 7" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-light-bg dark:text-[#0A0A0A]" />
+                <path d="M10 45 L48 7" stroke="currentColor" strokeWidth="10" strokeLinecap="round" className="text-light-bg dark:text-dark-bg" />
                 <path d="M10 45 L48 7 M34 7 L48 7 L48 21" stroke="#2CB4C3" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
               </g>
             </svg>
@@ -149,12 +165,12 @@ function AppContent() {
       <main className="flex-1 flex flex-col min-w-0 relative">
         
         {/* HEADER */}
-        <header className="h-16 border-b border-[#E9ECEF] dark:border-white/5 bg-light-bg/80 dark:bg-[#0A0A0A]/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-10 transition-colors duration-200">
+        <header className="h-16 border-b border-[#E9ECEF] dark:border-white/5 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-10 transition-colors duration-200">
           <div className="flex items-center gap-4">
             
             {/* MARKETPLACE SELECTOR */}
             <div className="relative group">
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/10 rounded-md hover:border-gray-300 dark:hover:border-white/20 transition-colors">
+              <button className="flex items-center gap-2 px-3 py-1.5 bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/10 rounded-md hover:border-gray-300 dark:hover:border-white/20 transition-colors">
                 <Store size={14} className="text-gray-500 dark:text-gray-400" />
                 <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-white ${marketplace === 'WB' ? 'bg-fuchsia-600' : 'bg-blue-600'}`}>
                   {marketplace}
@@ -164,7 +180,7 @@ function AppContent() {
               </button>
               
               {/* Dropdown Menu */}
-              <div className="absolute top-full left-0 mt-1 w-full bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="absolute top-full left-0 mt-1 w-full bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/10 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 <button 
                   onClick={() => setMarketplace('WB')}
                   className="flex items-center gap-2 w-full px-3 py-2 text-sm text-left hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
@@ -230,14 +246,14 @@ function AppContent() {
               <input 
                 type="text" 
                 placeholder={t.header.searchPlaceholder} 
-                className="w-full bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/5 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md pl-9 pr-3 py-1.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+                className="w-full bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/5 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md pl-9 pr-3 py-1.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
               />
             </div>
 
             {/* THEME TOGGLE */}
             <button 
               onClick={toggleTheme}
-              className="p-2 bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/10 rounded-md text-gray-500 hover:text-[#1A1A1B] dark:hover:text-gray-300 transition-colors"
+              className="p-2 bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/10 rounded-md text-gray-500 hover:text-[#1A1A1B] dark:hover:text-gray-300 transition-colors"
               title="Toggle Theme"
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}

@@ -68,20 +68,20 @@ export default function UnitEconomicsView() {
           <input 
             type="text" 
             placeholder={t.filters.searchPlaceholder} 
-            className="w-full bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/5 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md pl-9 pr-3 py-1.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
+            className="w-full bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/5 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md pl-9 pr-3 py-1.5 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-600"
           />
         </div>
-        <button className="flex items-center gap-2 px-3 py-1.5 bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/5 rounded-md text-sm hover:border-gray-300 dark:hover:border-white/20 transition-colors text-[#1A1A1B] dark:text-gray-300">
+        <button className="flex items-center gap-2 px-3 py-1.5 bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/5 rounded-md text-sm hover:border-gray-300 dark:hover:border-white/20 transition-colors text-[#1A1A1B] dark:text-gray-300">
           <Filter size={14} className="text-gray-500 dark:text-gray-400" />
           <span>{t.filters.categoryAll}</span>
         </button>
       </div>
 
       {/* TABLE */}
-      <div className="bg-light-card dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/5 rounded-md shadow-sm dark:shadow-2xl overflow-hidden transition-colors duration-200">
+      <div className="bg-light-card dark:bg-dark-surface border border-[#E9ECEF] dark:border-white/5 rounded-md shadow-sm dark:shadow-2xl overflow-hidden transition-colors duration-200">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-[#E9ECEF] dark:border-white/5 text-xs uppercase tracking-wider text-gray-500 bg-gray-50 dark:bg-[#0A0A0A]/50 transition-colors duration-200">
+            <tr className="border-b border-[#E9ECEF] dark:border-white/5 text-xs uppercase tracking-wider text-gray-500 bg-gray-50 dark:bg-dark-bg/50 transition-colors duration-200">
               <th className="p-4 font-medium w-8"></th>
               <th className="p-4 font-medium">{t.table.product}</th>
               <th className="p-4 font-medium">{t.table.price}</th>
@@ -135,7 +135,7 @@ export default function UnitEconomicsView() {
                           type="number"
                           value={product.price}
                           onChange={(e) => updateProduct(product.id, 'price', Number(e.target.value))}
-                          className="w-full bg-white dark:bg-[#0A0A0A] border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
+                          className="w-full bg-white dark:bg-dark-bg border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
                         />
                         <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">₽</span>
                       </div>
@@ -146,7 +146,7 @@ export default function UnitEconomicsView() {
                           type="number"
                           value={product.cogs}
                           onChange={(e) => updateProduct(product.id, 'cogs', Number(e.target.value))}
-                          className="w-full bg-white dark:bg-[#0A0A0A] border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
+                          className="w-full bg-white dark:bg-dark-bg border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md px-2 py-1 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all font-mono"
                         />
                         <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">₽</span>
                       </div>
@@ -187,27 +187,27 @@ export default function UnitEconomicsView() {
                         transition={{ duration: 0.2 }}
                       >
                         <td colSpan={9} className="p-0 border-b border-[#E9ECEF] dark:border-white/5">
-                          <div className="p-6 bg-gray-50/50 dark:bg-[#0A0A0A]/30 border-t border-[#E9ECEF] dark:border-white/5">
+                          <div className="p-6 bg-gray-50/50 dark:bg-dark-bg/30 border-t border-[#E9ECEF] dark:border-white/5">
                             <div className="grid grid-cols-4 gap-6">
-                              <div className="bg-white dark:bg-[#121212] p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
+                              <div className="bg-white dark:bg-dark-surface p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
                                 <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Маржинальность</p>
                                 <p className="text-lg font-semibold text-[#1A1A1B] dark:text-white font-mono">
                                   {((metrics.netProfit / product.price) * 100).toFixed(1)}%
                                 </p>
                               </div>
-                              <div className="bg-white dark:bg-[#121212] p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
+                              <div className="bg-white dark:bg-dark-surface p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
                                 <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Доля расходов</p>
                                 <p className="text-lg font-semibold text-[#1A1A1B] dark:text-white font-mono">
                                   {(((product.cogs + product.logistics + metrics.commission + metrics.tax) / product.price) * 100).toFixed(1)}%
                                 </p>
                               </div>
-                              <div className="bg-white dark:bg-[#121212] p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
+                              <div className="bg-white dark:bg-dark-surface p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
                                 <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Точка безубыточности</p>
                                 <p className="text-lg font-semibold text-[#1A1A1B] dark:text-white font-mono">
                                   {(product.cogs + product.logistics + metrics.commission + metrics.tax).toLocaleString('ru-RU')} ₽
                                 </p>
                               </div>
-                              <div className="bg-white dark:bg-[#121212] p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
+                              <div className="bg-white dark:bg-dark-surface p-4 rounded-md border border-[#E9ECEF] dark:border-white/5 shadow-sm hover-micro-gradient transition-colors duration-200">
                                 <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Оборачиваемость</p>
                                 <p className="text-lg font-semibold text-[#1A1A1B] dark:text-white font-mono">
                                   14 дней
