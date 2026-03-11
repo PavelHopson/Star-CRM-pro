@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Star, Filter, Cpu, RefreshCw, Copy, Send, Sparkles, Clock, X, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Star, Filter, Cpu, RefreshCw, Copy, Send, Sparkles, Clock, X, ShieldCheck, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Review, ReviewStatus, AutoReplyRule } from '../types';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
 const MOCK_RULE: AutoReplyRule = {
   id: 'rule_1',
@@ -68,18 +70,65 @@ const StatusChip = ({ status }: { status: ReviewStatus }) => {
 export default function ReviewsView({ setToast }: { setToast: (toast: {msg: string, type: 'success' | 'error'} | null) => void }) {
   const [reviews, setReviews] = useState<Review[]>(MOCK_REVIEWS);
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatingIds, setGeneratingIds] = useState<Set<string>>(new Set());
 
-  const handleGenerate = () => {
-    setIsGenerating(true);
+  // Setup Laravel Echo (Mocked behavior for preview, ready for real backend)
+  useEffect(() => {
+    // In a real Laravel app, you would initialize Echo here:
+    /*
+    window.Pusher = Pusher;
+    window.Echo = new Echo({
+      broadcaster: 'reverb', // or 'pusher'
+      key: import.meta.env.VITE_REVERB_APP_KEY,
+      wsHost: import.meta.env.VITE_REVERB_HOST,
+      wsPort: import.meta.env.VITE_REVERB_PORT,
+      forceTLS: false,
+      disableStats: true,
+    });
+
+    const channel = window.Echo.private(`store.${currentStoreId}`);
+    channel.listen('ReviewGenerated', (e: any) => {
+      handleReviewGeneratedEvent(e.review_id, e.ai_draft);
+    });
+
+    return () => {
+      window.Echo.leave(`store.${currentStoreId}`);
+    };
+    */
+  }, []);
+
+  const handleReviewGeneratedEvent = (reviewId: string, aiDraft: string) => {
+    setReviews(prev => prev.map(r => 
+      r.id === reviewId ? { ...r, status: 'GENERATED' as ReviewStatus, aiDraft } : r
+    ));
+    
+    setSelectedReview(prev => 
+      prev?.id === reviewId ? { ...prev, status: 'GENERATED' as ReviewStatus, aiDraft } : prev
+    );
+
+    setGeneratingIds(prev => {
+      const next = new Set(prev);
+      next.delete(reviewId);
+      return next;
+    });
+    
+    setToast({ msg: 'AI завершил генерацию ответа', type: 'success' });
+  };
+
+  const handleGenerate = (reviewId: string) => {
+    // 1. Add to generating set (UI updates immediately)
+    setGeneratingIds(prev => new Set(prev).add(reviewId));
+    
+    // 2. Make API call to Laravel (which dispatches the Job)
+    // axios.post(`/api/reviews/${reviewId}/generate`);
+    
+    // 3. Simulate the WebSocket event arriving after 4 seconds for the preview
     setTimeout(() => {
-      if (selectedReview) {
-        const updated = { ...selectedReview, status: 'GENERATED' as ReviewStatus, aiDraft: 'Сгенерированный ИИ ответ на основе анализа тональности и контекста отзыва. Спасибо за выбор нашего бренда!' };
-        setSelectedReview(updated);
-        setReviews(reviews.map(r => r.id === updated.id ? updated : r));
-      }
-      setIsGenerating(false);
-    }, 1500);
+      handleReviewGeneratedEvent(
+        reviewId, 
+        'Сгенерированный ИИ ответ в фоновом режиме. Спасибо за выбор нашего бренда!'
+      );
+    }, 4000);
   };
 
   const handlePublish = () => {
@@ -169,12 +218,25 @@ export default function ReviewsView({ setToast }: { setToast: (toast: {msg: stri
                   <p className="text-xs text-gray-500 dark:text-gray-600 mt-2">— {review.buyerName}</p>
                 </td>
                 <td className="p-4 align-top w-1/3">
-                  {review.aiDraft ? (
+                  {generatingIds.has(review.id) ? (
+                    <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400">
+                      <Loader2 size={14} className="animate-spin" />
+                      <span className="text-xs italic font-medium">ИИ генерирует ответ...</span>
+                    </div>
+                  ) : review.aiDraft ? (
                     <p className="text-sm text-gray-600 dark:text-gray-400 italic line-clamp-3 leading-relaxed border-l-2 border-cyan-500/30 pl-3">
                       {review.aiDraft}
                     </p>
                   ) : (
-                    <span className="text-xs text-gray-400 dark:text-gray-600 italic">Ожидает генерации...</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400 dark:text-gray-600 italic">Ожидает генерации...</span>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleGenerate(review.id); }}
+                        className="text-xs text-cyan-600 hover:text-cyan-700 dark:text-cyan-500 dark:hover:text-cyan-400 font-medium"
+                      >
+                        Сгенерировать
+                      </button>
+                    </div>
                   )}
                 </td>
                 <td className="p-4 align-top">
@@ -232,19 +294,28 @@ export default function ReviewsView({ setToast }: { setToast: (toast: {msg: stri
                   <p className="text-xs text-gray-500 font-medium">— {selectedReview.buyerName}</p>
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 relative">
                   <div className="flex items-center justify-between">
                     <label className="text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 flex items-center gap-2">
                       <Sparkles size={14} /> ИИ-Ассистент
                     </label>
                   </div>
-                  <textarea 
-                    rows={6}
-                    value={selectedReview.aiDraft || ''}
-                    onChange={(e) => setSelectedReview({...selectedReview, aiDraft: e.target.value})}
-                    placeholder="Нажмите 'Сгенерировать' для создания ответа..."
-                    className="w-full bg-white dark:bg-[#0A0A0A] border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md p-4 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none shadow-sm dark:shadow-inner"
-                  />
+                  <div className="relative">
+                    <textarea 
+                      rows={6}
+                      value={selectedReview.aiDraft || ''}
+                      onChange={(e) => setSelectedReview({...selectedReview, aiDraft: e.target.value})}
+                      placeholder="Нажмите 'Сгенерировать' для создания ответа..."
+                      disabled={generatingIds.has(selectedReview.id)}
+                      className="w-full bg-white dark:bg-[#0A0A0A] border border-[#E9ECEF] dark:border-white/10 text-sm text-[#1A1A1B] dark:text-gray-200 rounded-md p-4 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none shadow-sm dark:shadow-inner disabled:opacity-50"
+                    />
+                    {generatingIds.has(selectedReview.id) && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-[#0A0A0A]/80 backdrop-blur-sm rounded-md border border-cyan-500/30">
+                        <Loader2 size={24} className="text-cyan-500 animate-spin mb-2" />
+                        <span className="text-sm font-medium text-cyan-700 dark:text-cyan-400 animate-pulse">ИИ анализирует отзыв...</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Quality Gate Logs */}
@@ -286,12 +357,12 @@ export default function ReviewsView({ setToast }: { setToast: (toast: {msg: stri
 
               <div className="p-6 border-t border-[#E9ECEF] dark:border-white/5 bg-gray-50 dark:bg-[#0A0A0A]/50 flex gap-3 transition-colors duration-200">
                 <button 
-                  onClick={handleGenerate}
-                  disabled={isGenerating}
+                  onClick={() => handleGenerate(selectedReview.id)}
+                  disabled={generatingIds.has(selectedReview.id)}
                   className="flex-1 flex items-center justify-center gap-2 bg-white dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/10 text-[#1A1A1B] dark:text-white px-4 py-2.5 rounded-md text-sm font-medium hover:bg-gray-50 dark:hover:bg-white/5 transition-colors disabled:opacity-50 shadow-sm"
                 >
-                  {isGenerating ? <RefreshCw size={16} className="animate-spin" /> : <RefreshCw size={16} />}
-                  Перегенерировать
+                  {generatingIds.has(selectedReview.id) ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+                  {generatingIds.has(selectedReview.id) ? 'В процессе...' : (selectedReview.aiDraft ? 'Перегенерировать' : 'Сгенерировать')}
                 </button>
                 <button 
                   className="px-4 py-2.5 bg-white dark:bg-[#121212] border border-[#E9ECEF] dark:border-white/10 text-gray-500 dark:text-gray-300 rounded-md hover:text-[#1A1A1B] dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors shadow-sm"

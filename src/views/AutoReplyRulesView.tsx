@@ -153,9 +153,9 @@ export default function AutoReplyRulesView() {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Провайдер ИИ</label>
-                  <select className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
-                    <option value="DeepSeek" selected={selectedRule.provider === 'DeepSeek'}>DeepSeek (Экономичный)</option>
-                    <option value="OpenAI" selected={selectedRule.provider === 'OpenAI'}>OpenAI (Резервный)</option>
+                  <select defaultValue={selectedRule.provider} className="w-full bg-white dark:bg-[#0A0A0A] border border-light-border dark:border-white/10 text-sm text-light-text-primary dark:text-gray-200 rounded-md px-3 py-2 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all appearance-none">
+                    <option value="DeepSeek">DeepSeek (Экономичный)</option>
+                    <option value="OpenAI">OpenAI (Резервный)</option>
                   </select>
                 </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, CheckCircle2, Clock, Activity, DollarSign } from 'lucide-react';
+import { TrendingUp, CheckCircle2, Clock, Activity, DollarSign, AlertTriangle, TrendingDown, PackageX } from 'lucide-react';
 import { translations } from '../constants/translations';
 
 export default function DashboardView() {
@@ -9,6 +9,39 @@ export default function DashboardView() {
     <div className="p-6 overflow-y-auto flex-1 flex flex-col gap-6 bg-light-bg dark:bg-dark-bg transition-colors duration-200">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-light-text-primary dark:text-dark-text-primary tracking-tight">Дашборд</h1>
+      </div>
+
+      {/* --- ALERT CENTER --- */}
+      <div className="flex flex-col gap-3">
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-light-text-secondary dark:text-gray-500">Центр уведомлений</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Critical Alert */}
+          <div className="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 rounded-md p-4 flex items-start gap-3 shadow-sm">
+            <div className="p-2 bg-rose-100 dark:bg-rose-500/20 rounded-md shrink-0">
+              <TrendingDown size={18} className="text-rose-600 dark:text-rose-400" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-rose-800 dark:text-rose-300">Критическое падение ROI</h3>
+              <p className="text-xs text-rose-700 dark:text-rose-400 mt-1 leading-relaxed">
+                Внимание! Комиссия WB на категорию <strong>«Платья»</strong> выросла на 2%. Ожидаемый ROI упал до 5%. Требуется пересмотр цен.
+              </p>
+            </div>
+          </div>
+
+          {/* Warning Alert */}
+          <div className="bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 rounded-md p-4 flex items-start gap-3 shadow-sm">
+            <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-md shrink-0">
+              <PackageX size={18} className="text-amber-600 dark:text-amber-400" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-amber-800 dark:text-amber-300">Заканчивается сток</h3>
+              <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 leading-relaxed">
+                Товар <strong>«Футболка базовая белая»</strong> (Арт: 123456) закончится через 3 дня при текущей скорости продаж.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Metrics Ribbon */}
